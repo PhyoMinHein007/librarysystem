@@ -76,3 +76,4 @@ D:\DevLab\LibrarySystem\obj\Debug\net7.0-windows\LibrarySystem.pdb
 D:\DevLab\LibrarySystem\obj\Debug\net7.0-windows\LibrarySystem.genruntimeconfig.cache
 D:\DevLab\LibrarySystem\obj\Debug\net7.0-windows\ref\LibrarySystem.dll
 D:\DevLab\LibrarySystem\obj\Debug\net7.0-windows\LibrarySystem.Forms.frmAuthorSelection.resources
+D:\DevLab\LibrarySystem\obj\Debug\net7.0-windows\LibrarySystem.sourcelink.json

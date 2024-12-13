@@ -20,7 +20,7 @@ namespace Library.BR
         {
             if (string.IsNullOrEmpty(id))
             {
-                MessageBox.Show("Rental id parameter must not be empty");
+                //MessageBox.Show("Rental id parameter must not be empty");
                 return null;
             }
             try
@@ -45,8 +45,7 @@ namespace Library.BR
             maxBooksAllowed = memberType.MaxBookAllowed;
         }
 
-        public static Boolean SaveOrUpdate(Library.BizO.Rental rec, bool isNewRow)
-{
+        public static Boolean SaveOrUpdate(Library.BizO.Rental rec, bool isNewRow){
             if (string.IsNullOrEmpty(rec.RentalId))
             {
                 MessageBox.Show("Rental ID parameter must not be empty");
@@ -62,6 +61,8 @@ namespace Library.BR
                 MessageBox.Show("User ID parameter must not be empty");
                 return false;
             }
+            
+
 
             BizO.Member member = Cruder.Member.GetById(rec.MemberId);
             BizO.User user = Cruder.User.GetById(rec.UserId);
@@ -74,6 +75,14 @@ namespace Library.BR
 
             foreach (BizO.RentalDetail rd in rec.RentalDetails)
             {
+                // Check if the BookId exists in the Book entity
+                var book = BR.Book.GetById(rd.BookId);
+                if (book == null)
+                {
+                    MessageBox.Show($"'{rd.BookId}' is not a valid book ID");
+                    return false;
+                }
+
                 // If it's a new row, check all books for availability
                 // If it's an update, check availability only for newly added books
                 bool isNewBook = isNewRow || (existingRental != null && !existingRental.RentalDetails.Any(x => x.BookId == rd.BookId));
@@ -84,25 +93,34 @@ namespace Library.BR
                 }
             }
 
-            getMemberInfo(rec);
-
-            if (curRentOutCount > maxBooksAllowed)
+            // Compare the current data with the existing rental
+            if (!isNewRow && existingRental != null && AreRentalsEqual(rec, existingRental))
             {
-                MessageBox.Show("This member's books rental is exceeding the maximum books allowed limit");
-                return false;
+                return true;
             }
 
-            int rentOutCountChange = CalculateRentOutCountChange(rec, isNewRow);
-
-            potentialRentOutCount = curRentOutCount + rentOutCountChange;
-
-            if (potentialRentOutCount > maxBooksAllowed)
+            if(rec.RentalDetails != null)
             {
-                MessageBox.Show("This member's books rental is exceeding the maximum books allowed limit");
-                return false;
-            }
+                getMemberInfo(rec);
 
-            member.CurrentRentOutCount = potentialRentOutCount;
+                if (curRentOutCount > maxBooksAllowed)
+                {
+                    MessageBox.Show("This member's books rental is exceeding the maximum books allowed limit");
+                    return false;
+                }
+
+                int rentOutCountChange = CalculateRentOutCountChange(rec, isNewRow);
+
+                potentialRentOutCount = curRentOutCount + rentOutCountChange;
+
+                if (potentialRentOutCount > maxBooksAllowed)
+                {
+                    MessageBox.Show("This member's books rental is exceeding the maximum books allowed limit");
+                    return false;
+                }
+
+                member.CurrentRentOutCount = potentialRentOutCount >= 0 ? potentialRentOutCount : 0;
+            }           
 
             try
             {
@@ -119,42 +137,83 @@ namespace Library.BR
             return true;
         }
 
+        private static bool AreRentalsEqual(Library.BizO.Rental newRental, Library.BizO.Rental existingRental)
+        {
+            
+            if (newRental.RentalId != existingRental.RentalId ||
+                newRental.MemberId != existingRental.MemberId ||
+                newRental.UserId != existingRental.UserId ||
+                newRental.RentalDate != existingRental.RentalDate ||
+                newRental.DateToReturn != existingRental.DateToReturn)
+            {
+                return false;
+            }
 
+            
+            if (newRental.RentalDetails.Count != existingRental.RentalDetails.Count)
+            {
+                return false;
+            }
+
+            foreach (BizO.RentalDetail rd in newRental.RentalDetails)
+            {
+                BizO.RentalDetail matchingDetail = existingRental.RentalDetails
+                    .FirstOrDefault(d => d.BookId == rd.BookId);
+
+                if (matchingDetail == null ||
+                    matchingDetail.IsReturned != rd.IsReturned ||
+                    matchingDetail.ReturnDate != rd.ReturnDate ||
+                    matchingDetail.ReturnStatus != rd.ReturnStatus)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         private static int CalculateRentOutCountChange(Library.BizO.Rental rec, bool isNewRow)
         {
             int rentOutCountChange = 0;
 
+            Library.BizO.Rental existingRental = BR.Rental.GetById(rec.RentalId);
+
             foreach (BizO.RentalDetail rd in rec.RentalDetails)
             {
+                bool isNewBook = isNewRow || (existingRental != null && !existingRental.RentalDetails.Any(x => x.BookId == rd.BookId));
                 Flags.ReturnStatus returnStatus = rd.ReturnStatus;
 
-                if (isNewRow)
+                if (isNewRow || (!isNewRow && isNewBook))
                 {
                     switch (returnStatus)
                     {
-                        case Flags.ReturnStatus.Good:
-                        case Flags.ReturnStatus.Lost:
-                        case Flags.ReturnStatus.Damaged:
-                            rentOutCountChange--;
-                            break;
-
                         case Flags.ReturnStatus.NotReturnedYet:
                         case Flags.ReturnStatus.Overdue:
                         case Flags.ReturnStatus.None:
-                        default:
                             rentOutCountChange++;
+                            break;
+                        default:                           
                             break;
                     }
                     
                 }
                 else
                 {
-                    if (returnStatus == Flags.ReturnStatus.Lost ||
-                        returnStatus == Flags.ReturnStatus.Good ||
-                        returnStatus == Flags.ReturnStatus.Damaged)
+                    BizO.RentalDetail existingRd = existingRental.RentalDetails.FirstOrDefault(x => x.BookId == rd.BookId);
+                    if (rd.ReturnStatus == existingRd.ReturnStatus)
                     {
-                        rentOutCountChange--;
+                        continue;
+                    }
+                    switch (returnStatus)
+                    {
+
+                        case Flags.ReturnStatus.Good:
+                        case Flags.ReturnStatus.Lost:
+                        case Flags.ReturnStatus.Damaged:
+                            rentOutCountChange--;
+                            break;
+                        default:
+                            break;
                     }
                 }
             }

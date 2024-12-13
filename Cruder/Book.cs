@@ -1,4 +1,5 @@
-﻿using Library.Entity;
+﻿using AutoMapper.QueryableExtensions;
+using Library.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,19 @@ namespace Library.Cruder
                                            Library.BizO.Book>(tmp);
 
             return rec;
+
+        }
+
+        public static List<Library.BizO.Book> GetAllBooks()
+        {
+            DbModel db = new();
+            List<Library.BizO.Book> reclist = (db.Books
+                                                        .OrderBy(x => x.BookId)
+                                                        .ProjectTo<Library.BizO.Book>(BuildMap.Mapper.ConfigurationProvider))
+                                                        .ToList();
+
+
+            return reclist;
 
         }
 

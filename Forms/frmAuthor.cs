@@ -83,6 +83,7 @@ namespace Library.Forms
             {
                 MessageBox.Show("Fail to delete");
             }
+            CreateNewRow();
         }
 
         private void btnSave_Click(object sender, EventArgs e)

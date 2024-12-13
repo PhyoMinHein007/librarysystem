@@ -58,6 +58,16 @@ namespace Library.BR
                 MessageBox.Show("Member name parameter must not be empty");
                 return false;
             }
+            if (string.IsNullOrEmpty(rec.MemberTypeId))
+            {
+                MessageBox.Show("Member type parameter must not be empty");
+                return false;
+            }
+            if (!CheckCRCIsValid(rec))
+            {
+                MessageBox.Show("Current RentOut Count is exceeding the max books allowed for the chosen member type.");
+                return false;
+            }
             try
             {
                 Library.Cruder.Member.Save(rec);
@@ -66,6 +76,18 @@ namespace Library.BR
             {
                 MessageBox.Show(ex.Message);
                 return false;
+            }
+            return true;
+        }
+
+        public static Boolean CheckCRCIsValid(Library.BizO.Member rec)
+        {
+            BizO.MemberType memberType = Cruder.MemberType.GetById(rec.MemberTypeId);
+            int maxbooksallowed = memberType.MaxBookAllowed;
+            if (rec.CurrentRentOutCount > maxbooksallowed)
+            {
+                return false;
+
             }
             return true;
         }

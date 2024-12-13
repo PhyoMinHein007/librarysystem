@@ -1,4 +1,5 @@
-﻿using Library.Entity;
+﻿using AutoMapper.QueryableExtensions;
+using Library.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

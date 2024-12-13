@@ -28,6 +28,7 @@ namespace Library.Forms
             {
                 _isNewRow = value;
                 txtRentalID.Enabled = _isNewRow;
+                
             }
         }
 
@@ -59,8 +60,17 @@ namespace Library.Forms
             if (!IsNewRow)
             {
                 dtRental.Value = datarow.RentalDate;
-                dtToReturn.Value = datarow.DateToReturn;
-                dtToReturn.MinDate = dtRental.Value.AddDays(1);
+                if (datarow.DateToReturn < dtToReturn.MinDate)
+                {
+                    dtToReturn.MinDate = DateTime.Today.AddDays(1); 
+                    dtToReturn.Value = dtToReturn.MinDate; 
+                }
+                else
+                {
+                    dtToReturn.Value = datarow.DateToReturn;
+                }
+
+
                 foreach (var rentalDetail in datarow.RentalDetails)
                 {
                     int rowIdx = dgvRentalDetail.Rows.Add();
@@ -82,43 +92,75 @@ namespace Library.Forms
             else
             {
                 dtRental.Value = DateTime.Today;
-                dtToReturn.Value = DateTime.Today;
                 dtToReturn.MinDate = DateTime.Today.AddDays(1);
+                dtToReturn.Value = dtToReturn.MinDate;
             }
 
         }
 
-        private void CopyBack()
+        private bool CopyBack()
         {
-            datarow.RentalId = txtRentalID.Text;
-            datarow.MemberId = txtMemberID.Text;
-            datarow.UserId = txtLibrarianID.Text;
-            datarow.RentalDate = dtRental.Value;
-            datarow.DateToReturn = dtToReturn.Value;
-
-            datarow.RentalDetails.Clear();
-            foreach (DataGridViewRow row in dgvRentalDetail.Rows)
+            try
             {
+                datarow.RentalId = txtRentalID.Text;
+                datarow.MemberId = txtMemberID.Text;
+                datarow.UserId = txtLibrarianID.Text;
+                datarow.RentalDate = dtRental.Value;
+                datarow.DateToReturn = dtToReturn.Value;
 
-                if (!row.IsNewRow)
+                List<BizO.RentalDetail> tempRentalDetails = new();
+
+                foreach (DataGridViewRow row in dgvRentalDetail.Rows)
                 {
-                    BizO.RentalDetail rentalDetail = new Library.BizO.RentalDetail
+                    if (!row.IsNewRow)
                     {
-                        BookId = row.Cells["gcBookId"].Value?.ToString() ?? "Unknown",
-                        IsReturned = row.Cells["gcIsReturned"].Value != null
-                                    && (bool)row.Cells["gcIsReturned"].Value,
-                        ReturnDate = row.Cells["gcReturnedDate"].Value == null
-                                    ? DateTime.MinValue
-                                    : Convert.ToDateTime(row.Cells["gcReturnedDate"].Value),
-                        ReturnStatus = row.Cells["gcReturnStatus"].Value != null
-                                    ? (ReturnStatus)row.Cells["gcReturnStatus"].Value
-                                    : ReturnStatus.None
-                    };
+                        BizO.RentalDetail rentalDetail = new()
+                        {
+                            BookId = row.Cells["gcBookId"].Value?.ToString() ?? "Unknown",
+                            IsReturned = row.Cells["gcIsReturned"].Value != null
+                                        && (bool)row.Cells["gcIsReturned"].Value,
+                            ReturnDate = row.Cells["gcReturnedDate"].Value == null
+                                        ? DateTime.MinValue
+                                        : ParseDate(row.Cells["gcReturnedDate"].Value),
+                            ReturnStatus = row.Cells["gcReturnStatus"].Value != null
+                                        ? (ReturnStatus)row.Cells["gcReturnStatus"].Value
+                                        : ReturnStatus.None
+                        };
 
-                    datarow.RentalDetails.Add(rentalDetail);
+                        tempRentalDetails.Add(rentalDetail);
+                    }
                 }
+
+                datarow.RentalDetails = tempRentalDetails;
+
+                return true;
+            }
+            catch (FormatException ex)
+            {
+                MessageBox.Show($"Please enter the dates in the correct format (e.g., 'MM/dd/yyyy').");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return false; 
+        }
+
+
+
+        private DateTime ParseDate(object cellValue)
+        {
+            if (DateTime.TryParse(cellValue.ToString(), out DateTime parsedDate))
+            {
+                return parsedDate;
+            }
+            else
+            {
+                throw new FormatException($"The value '{cellValue}' is not a valid date.");
             }
         }
+
 
         private void btnClose_Click(object sender, EventArgs e)
         {
@@ -146,7 +188,11 @@ namespace Library.Forms
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            CopyBack();
+            if (!CopyBack())
+            {
+                return;
+            }
+
             if (IsNewRow)
             {
                 var existingData = Library.BR.Rental.GetById(datarow.RentalId);
@@ -155,8 +201,8 @@ namespace Library.Forms
                     MessageBox.Show("The Rental ID is already in use. Please choose a different ID.");
                     return;
                 }
-
             }
+
             if (Library.BR.Rental.SaveOrUpdate(datarow, IsNewRow))
             {
                 MessageBox.Show("Saved Successfully");
@@ -167,8 +213,8 @@ namespace Library.Forms
                 MessageBox.Show("Unable to save");
                 FillData();
             }
-
         }
+
 
         private void btnSearchById_Click(object sender, EventArgs e)
         {
@@ -197,14 +243,22 @@ namespace Library.Forms
                 Format = "d"
             };
 
-            ((DataGridViewComboBoxColumn)dgvRentalDetail.Columns["gcIsReturned"]).DataSource = new[] { true, false };
-            ((DataGridViewComboBoxColumn)dgvRentalDetail.Columns["gcIsReturned"]).ValueType = typeof(bool);
+           
+            var isReturnedSource = new Dictionary<bool, string>
+                {
+                    { true, "Yes" },
+                    { false, "No" }
+                };
 
+            ((DataGridViewComboBoxColumn)dgvRentalDetail.Columns["gcIsReturned"]).DataSource = new BindingSource(isReturnedSource, null);
+            ((DataGridViewComboBoxColumn)dgvRentalDetail.Columns["gcIsReturned"]).DisplayMember = "Value";
+            ((DataGridViewComboBoxColumn)dgvRentalDetail.Columns["gcIsReturned"]).ValueMember = "Key";
 
+            // Configure "ReturnStatus" column
             ((DataGridViewComboBoxColumn)dgvRentalDetail.Columns["gcReturnStatus"]).DataSource = Enum.GetValues(typeof(ReturnStatus));
             ((DataGridViewComboBoxColumn)dgvRentalDetail.Columns["gcReturnStatus"]).ValueType = typeof(ReturnStatus);
-
         }
+
 
         private void dgvRentalDetail_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
