@@ -16,6 +16,9 @@
     <Compile Update="Forms\frmMember.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\frmMemberSelection.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\frmMemberType.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -26,6 +29,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Forms\frmUserRole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\frmUserSelection.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

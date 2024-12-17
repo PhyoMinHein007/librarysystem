@@ -190,7 +190,7 @@
             MinimizeBox = false;
             Name = "frmUserRole";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "frmUserRole";
+            Text = "User Role Entry";
             Load += frmUserRole_Load;
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();

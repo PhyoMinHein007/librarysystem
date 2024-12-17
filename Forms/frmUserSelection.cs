@@ -10,27 +10,26 @@ using System.Windows.Forms;
 
 namespace Library.Forms
 {
-    public partial class frmAuthorSelection : Form
+    public partial class frmUserSelection : Form
     {
-        public Library.BizO.Author SelectedAuthor { get; private set; }
-
-        public frmAuthorSelection(List<Library.BizO.Author> authors)
+        public Library.BizO.User SelectedUser { get; private set; }
+        public frmUserSelection(List<Library.BizO.User> users)
         {
             InitializeComponent();
-            dataGridViewAuthors.DataSource = authors;
+            dataGridViewUsers.DataSource = users;
         }
 
-        private void btnOK_Click(object sender, EventArgs e)
+        private void btnOk_Click(object sender, EventArgs e)
         {
-            if (dataGridViewAuthors.SelectedRows.Count > 0)
+            if (dataGridViewUsers.SelectedRows.Count > 0)
             {
-                SelectedAuthor = (Library.BizO.Author)dataGridViewAuthors.SelectedRows[0].DataBoundItem;
+                SelectedUser = (Library.BizO.User)dataGridViewUsers.SelectedRows[0].DataBoundItem;
                 DialogResult = DialogResult.OK;
                 this.Close();
             }
             else
             {
-                MessageBox.Show("Please select an author.");
+                MessageBox.Show("Please select a user.");
             }
         }
 
@@ -39,6 +38,5 @@ namespace Library.Forms
             DialogResult = DialogResult.Cancel;
             this.Close();
         }
-
     }
 }

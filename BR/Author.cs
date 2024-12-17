@@ -12,7 +12,7 @@ namespace Library.BR
         {
             if (string.IsNullOrEmpty(id))
             {
-                MessageBox.Show("Author id parameter must not be empty");
+                //MessageBox.Show("Author id parameter must not be empty");
                 return null;
             }
             try

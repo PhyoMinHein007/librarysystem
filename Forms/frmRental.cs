@@ -1,4 +1,4 @@
-﻿using LibrarySystem.Forms;
+﻿using Library.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,7 +28,7 @@ namespace Library.Forms
             {
                 _isNewRow = value;
                 txtRentalID.Enabled = _isNewRow;
-                
+
             }
         }
 
@@ -62,8 +62,8 @@ namespace Library.Forms
                 dtRental.Value = datarow.RentalDate;
                 if (datarow.DateToReturn < dtToReturn.MinDate)
                 {
-                    dtToReturn.MinDate = DateTime.Today.AddDays(1); 
-                    dtToReturn.Value = dtToReturn.MinDate; 
+                    dtToReturn.MinDate = DateTime.Today.AddDays(1);
+                    dtToReturn.Value = dtToReturn.MinDate;
                 }
                 else
                 {
@@ -144,7 +144,7 @@ namespace Library.Forms
                 MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            return false; 
+            return false;
         }
 
 
@@ -243,7 +243,7 @@ namespace Library.Forms
                 Format = "d"
             };
 
-           
+
             var isReturnedSource = new Dictionary<bool, string>
                 {
                     { true, "Yes" },
@@ -264,15 +264,24 @@ namespace Library.Forms
         {
             if (dgvRentalDetail.Columns[e.ColumnIndex].Name == "gcReturnedDate")
             {
-                // Get the corresponding "IsReturned" value for the current row
+                
                 var isReturnedValue = dgvRentalDetail.Rows[e.RowIndex].Cells["gcIsReturned"].Value;
 
                 // If "IsReturned" is null or not true, cancel the edit
                 if (isReturnedValue == null || !(bool)isReturnedValue)
                 {
-                    MessageBox.Show("You can only enter the Returned Date if 'Is Returned' is set to true.");
+                    MessageBox.Show("You can only enter the Returned Date if 'Is Returned' is chosen 'Yes'.");
                     e.Cancel = true;
                 }
+            }
+        }
+
+        private void dgvRentalDetail_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dgvRentalDetail.Columns["DeleteButton"].Index && e.RowIndex >= 0)
+            {
+
+                dgvRentalDetail.Rows.RemoveAt(e.RowIndex);
             }
         }
 

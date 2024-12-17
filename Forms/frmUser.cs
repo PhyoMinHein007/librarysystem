@@ -1,4 +1,4 @@
-﻿using LibrarySystem.Forms;
+﻿using Library.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -133,18 +133,32 @@ namespace Library.Forms
             string name = txtUserName.Text;
             if (string.IsNullOrEmpty(name)) return;
 
-            datarow = Library.BR.User.GetByName(name);
+            List<Library.BizO.User> reclist = Library.BR.User.GetByName(name);
 
-            if (datarow == null)
+            if (reclist == null || reclist.Count <= 0)
             {
                 MessageBox.Show("No User with this name found");
                 CreateNewRow();
             }
-            else
+            else if (reclist.Count == 1)
             {
+                datarow = reclist[0];
                 IsNewRow = false;
                 FillData();
             }
+            else
+            {
+                using (frmUserSelection selectionForm = new frmUserSelection(reclist))
+                {
+                    if (selectionForm.ShowDialog() == DialogResult.OK)
+                    {
+                        datarow = selectionForm.SelectedUser;
+                        IsNewRow = false;
+                        FillData();
+                    }
+                }
+            }
+
 
         }
 

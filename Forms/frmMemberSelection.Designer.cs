@@ -1,6 +1,6 @@
 ﻿namespace Library.Forms
 {
-    partial class frmAuthorSelection
+    partial class frmMemberSelection
     {
         /// <summary>
         /// Required designer variable.
@@ -28,39 +28,38 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridViewAuthors = new DataGridView();
-            btnOK = new Button();
+            dataGridViewMembers = new DataGridView();
+            btnOk = new Button();
             btnCancel = new Button();
-            toolStrip1 = new ToolStrip();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
-            ((System.ComponentModel.ISupportInitialize)dataGridViewAuthors).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewMembers).BeginInit();
             statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
-            // dataGridViewAuthors
+            // dataGridViewMembers
             // 
-            dataGridViewAuthors.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewAuthors.Location = new Point(102, 53);
-            dataGridViewAuthors.Name = "dataGridViewAuthors";
-            dataGridViewAuthors.RowHeadersWidth = 51;
-            dataGridViewAuthors.RowTemplate.Height = 29;
-            dataGridViewAuthors.Size = new Size(444, 264);
-            dataGridViewAuthors.TabIndex = 0;
+            dataGridViewMembers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewMembers.Location = new Point(48, 46);
+            dataGridViewMembers.Name = "dataGridViewMembers";
+            dataGridViewMembers.RowHeadersWidth = 51;
+            dataGridViewMembers.RowTemplate.Height = 29;
+            dataGridViewMembers.Size = new Size(978, 342);
+            dataGridViewMembers.TabIndex = 0;
             // 
-            // btnOK
+            // btnOk
             // 
-            btnOK.Location = new Point(327, 355);
-            btnOK.Name = "btnOK";
-            btnOK.Size = new Size(94, 29);
-            btnOK.TabIndex = 1;
-            btnOK.Text = "OK";
-            btnOK.UseVisualStyleBackColor = true;
-            btnOK.Click += btnOK_Click;
+            btnOk.Location = new Point(707, 423);
+            btnOk.Name = "btnOk";
+            btnOk.Size = new Size(94, 29);
+            btnOk.TabIndex = 1;
+            btnOk.Text = "Ok";
+            btnOk.UseVisualStyleBackColor = true;
+            btnOk.Click += btnOK_Click;
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(427, 355);
+            btnCancel.Location = new Point(807, 423);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(94, 29);
             btnCancel.TabIndex = 2;
@@ -68,48 +67,38 @@
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Click += btnCancel_Click;
             // 
-            // toolStrip1
-            // 
-            toolStrip1.ImageScalingSize = new Size(20, 20);
-            toolStrip1.Location = new Point(0, 0);
-            toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(654, 25);
-            toolStrip1.TabIndex = 3;
-            toolStrip1.Text = "toolStrip1";
-            // 
             // statusStrip1
             // 
             statusStrip1.ImageScalingSize = new Size(20, 20);
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
-            statusStrip1.Location = new Point(0, 408);
+            statusStrip1.Location = new Point(0, 473);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(654, 26);
-            statusStrip1.TabIndex = 4;
+            statusStrip1.Size = new Size(1077, 26);
+            statusStrip1.TabIndex = 3;
             statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(274, 20);
-            toolStripStatusLabel1.Text = "You may select an author and press 'OK'.";
+            toolStripStatusLabel1.RightToLeft = RightToLeft.No;
+            toolStripStatusLabel1.Size = new Size(277, 20);
+            toolStripStatusLabel1.Text = "You may select a member and press 'Ok'.";
             // 
-            // frmAuthorSelection
+            // frmMemberSelection
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(654, 434);
+            ClientSize = new Size(1077, 499);
             Controls.Add(statusStrip1);
-            Controls.Add(toolStrip1);
             Controls.Add(btnCancel);
-            Controls.Add(btnOK);
-            Controls.Add(dataGridViewAuthors);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Controls.Add(btnOk);
+            Controls.Add(dataGridViewMembers);
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "frmAuthorSelection";
+            Name = "frmMemberSelection";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Author Selection";
-            ((System.ComponentModel.ISupportInitialize)dataGridViewAuthors).EndInit();
+            Text = "Member Selection";
+            ((System.ComponentModel.ISupportInitialize)dataGridViewMembers).EndInit();
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
             ResumeLayout(false);
@@ -118,10 +107,9 @@
 
         #endregion
 
-        private DataGridView dataGridViewAuthors;
-        private Button btnOK;
+        private DataGridView dataGridViewMembers;
+        private Button btnOk;
         private Button btnCancel;
-        private ToolStrip toolStrip1;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel1;
     }

@@ -12,7 +12,7 @@ namespace Library.BR
         {
             if (string.IsNullOrEmpty(id))
             {
-                MessageBox.Show("User id parameter must not be empty");
+                //MessageBox.Show("User id parameter must not be empty");
                 return null;
             }
             try
@@ -27,7 +27,7 @@ namespace Library.BR
             }
         }
 
-        public static Library.BizO.User GetByName(string name)
+        public static List<Library.BizO.User> GetByName(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -36,7 +36,7 @@ namespace Library.BR
             }
             try
             {
-                Library.BizO.User rec = Library.Cruder.User.GetByName(name);
+                List<Library.BizO.User> rec = Library.Cruder.User.GetByName(name);
                 return rec;
             }
             catch (Exception ex)
@@ -56,6 +56,11 @@ namespace Library.BR
             if (string.IsNullOrEmpty(rec.UserName))
             {
                 MessageBox.Show("User name parameter must not be empty");
+                return false;
+            }
+            if (string.IsNullOrEmpty(rec.UserRoleId))
+            {
+                MessageBox.Show("User role parameter must not be empty");
                 return false;
             }
             try

@@ -23,14 +23,17 @@ namespace Library.Cruder
 
         }
 
-        public static Library.BizO.Member GetByName(string name)
+        public static List<Library.BizO.Member> GetByName(string name)
         {
             DbModel db = new();
-            Library.Entity.Member tmp = db.Members.FirstOrDefault(x => x.Name.Contains(name));
+            List<Library.Entity.Member> tmp = db.Members
+                                    .AsNoTracking()
+                                    .Where(x => x.Name.Contains(name))
+                                    .ToList();
 
 
-            Library.BizO.Member rec = BuildMap.Mapper.Map<Library.Entity.Member,
-                                           Library.BizO.Member>(tmp);
+            List<Library.BizO.Member> rec = BuildMap.Mapper.Map<List<Library.Entity.Member>,
+                                           List<Library.BizO.Member>>(tmp);
 
             return rec;
 

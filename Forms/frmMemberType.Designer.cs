@@ -195,7 +195,7 @@
             MinimizeBox = false;
             Name = "frmMemberType";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "frmMemberType";
+            Text = "Member Type Entry";
             Load += frmMemberType_Load;
             ((System.ComponentModel.ISupportInitialize)numMaxBookAllowed).EndInit();
             statusStrip1.ResumeLayout(false);

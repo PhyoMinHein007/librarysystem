@@ -1,4 +1,4 @@
-﻿using LibrarySystem.Forms;
+﻿using Library.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -127,17 +127,30 @@ namespace Library.Forms
             string name = txtMemberName.Text;
             if (string.IsNullOrEmpty(name)) return;
 
-            datarow = Library.BR.Member.GetByName(name);
+            List<Library.BizO.Member> recList = Library.BR.Member.GetByName(name);
 
-            if (datarow == null)
+            if (recList == null || recList.Count == 0)
             {
-                MessageBox.Show("No Member with this name found");
+                MessageBox.Show("No Author with this name found");
                 CreateNewRow();
+            }
+            else if (recList.Count == 1)
+            {
+                datarow = recList[0];
+                IsNewRow = false;
+                FillData();
             }
             else
             {
-                IsNewRow = false;
-                FillData();
+                using (frmMemberSelection selectionForm = new frmMemberSelection(recList))
+                {
+                    if (selectionForm.ShowDialog() == DialogResult.OK)
+                    {
+                        datarow = selectionForm.SelectedMember;
+                        IsNewRow = false;
+                        FillData();
+                    }
+                }
             }
 
         }

@@ -12,7 +12,7 @@ namespace Library.BR
         {
             if (string.IsNullOrEmpty(id))
             {
-                MessageBox.Show("Member id parameter must not be empty");
+                //MessageBox.Show("Member id parameter must not be empty");
                 return null;
             }
             try
@@ -27,7 +27,7 @@ namespace Library.BR
             }
         }
 
-        public static Library.BizO.Member GetByName(string name)
+        public static List<Library.BizO.Member> GetByName(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -36,7 +36,7 @@ namespace Library.BR
             }
             try
             {
-                Library.BizO.Member rec = Library.Cruder.Member.GetByName(name);
+                List<Library.BizO.Member> rec = Library.Cruder.Member.GetByName(name);
                 return rec;
             }
             catch (Exception ex)

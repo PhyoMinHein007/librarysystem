@@ -103,9 +103,9 @@
             label6.AutoSize = true;
             label6.Location = new Point(363, 69);
             label6.Name = "label6";
-            label6.Size = new Size(134, 20);
+            label6.Size = new Size(162, 20);
             label6.TabIndex = 5;
-            label6.Text = "Current Rent Count";
+            label6.Text = "Current Rent Out Count";
             // 
             // txtMemberID
             // 
@@ -120,7 +120,7 @@
             txtMemberName.Location = new Point(186, 105);
             txtMemberName.Margin = new Padding(3, 4, 3, 4);
             txtMemberName.Name = "txtMemberName";
-            txtMemberName.Size = new Size(444, 27);
+            txtMemberName.Size = new Size(476, 27);
             txtMemberName.TabIndex = 4;
             // 
             // txtPhoneNumber
@@ -128,7 +128,7 @@
             txtPhoneNumber.Location = new Point(186, 149);
             txtPhoneNumber.Margin = new Padding(3, 4, 3, 4);
             txtPhoneNumber.Name = "txtPhoneNumber";
-            txtPhoneNumber.Size = new Size(444, 27);
+            txtPhoneNumber.Size = new Size(476, 27);
             txtPhoneNumber.TabIndex = 6;
             // 
             // txteMail
@@ -136,7 +136,7 @@
             txteMail.Location = new Point(186, 192);
             txteMail.Margin = new Padding(3, 4, 3, 4);
             txteMail.Name = "txteMail";
-            txteMail.Size = new Size(444, 27);
+            txteMail.Size = new Size(476, 27);
             txteMail.TabIndex = 7;
             // 
             // cbMemberTypeID
@@ -150,7 +150,7 @@
             // 
             // numCurrentRentCount
             // 
-            numCurrentRentCount.Location = new Point(499, 67);
+            numCurrentRentCount.Location = new Point(531, 65);
             numCurrentRentCount.Margin = new Padding(3, 4, 3, 4);
             numCurrentRentCount.Name = "numCurrentRentCount";
             numCurrentRentCount.Size = new Size(131, 27);
@@ -158,7 +158,7 @@
             // 
             // btnSearchByMemberID
             // 
-            btnSearchByMemberID.Location = new Point(370, 27);
+            btnSearchByMemberID.Location = new Point(349, 27);
             btnSearchByMemberID.Margin = new Padding(3, 4, 3, 4);
             btnSearchByMemberID.Name = "btnSearchByMemberID";
             btnSearchByMemberID.Size = new Size(86, 31);
@@ -169,7 +169,7 @@
             // 
             // btnSearchByName
             // 
-            btnSearchByName.Location = new Point(640, 105);
+            btnSearchByName.Location = new Point(668, 103);
             btnSearchByName.Margin = new Padding(3, 4, 3, 4);
             btnSearchByName.Name = "btnSearchByName";
             btnSearchByName.Size = new Size(86, 31);
@@ -185,7 +185,7 @@
             statusStrip1.Location = new Point(0, 333);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Padding = new Padding(1, 0, 16, 0);
-            statusStrip1.Size = new Size(767, 26);
+            statusStrip1.Size = new Size(864, 26);
             statusStrip1.TabIndex = 27;
             statusStrip1.Text = "You can search either by Book ID or ISBN number.";
             // 
@@ -204,7 +204,7 @@
             // 
             // btnSave
             // 
-            btnSave.Location = new Point(332, 264);
+            btnSave.Location = new Point(231, 266);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(94, 29);
             btnSave.TabIndex = 8;
@@ -214,7 +214,7 @@
             // 
             // btnClear
             // 
-            btnClear.Location = new Point(432, 264);
+            btnClear.Location = new Point(331, 266);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(94, 29);
             btnClear.TabIndex = 9;
@@ -224,7 +224,7 @@
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(532, 264);
+            btnDelete.Location = new Point(431, 266);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(94, 29);
             btnDelete.TabIndex = 10;
@@ -234,7 +234,7 @@
             // 
             // btnClose
             // 
-            btnClose.Location = new Point(632, 264);
+            btnClose.Location = new Point(531, 266);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(94, 29);
             btnClose.TabIndex = 11;
@@ -246,7 +246,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(767, 359);
+            ClientSize = new Size(864, 359);
             Controls.Add(btnClose);
             Controls.Add(btnDelete);
             Controls.Add(btnClear);
@@ -271,7 +271,7 @@
             MinimizeBox = false;
             Name = "frmMember";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "frmMember";
+            Text = "Member Entry";
             Load += frmMember_Load;
             ((System.ComponentModel.ISupportInitialize)numCurrentRentCount).EndInit();
             statusStrip1.ResumeLayout(false);

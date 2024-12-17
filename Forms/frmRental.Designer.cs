@@ -40,6 +40,11 @@
             dtToReturn = new DateTimePicker();
             cmdSearchByRentalId = new Button();
             dgvRentalDetail = new DataGridView();
+            gcBookId = new DataGridViewTextBoxColumn();
+            gcIsReturned = new DataGridViewComboBoxColumn();
+            gcReturnedDate = new DataGridViewTextBoxColumn();
+            gcReturnStatus = new DataGridViewComboBoxColumn();
+            DeleteButton = new DataGridViewButtonColumn();
             cmdClose = new Button();
             cmdClear = new Button();
             cmdDelete = new Button();
@@ -48,10 +53,6 @@
             statusStrip1 = new StatusStrip();
             stMessage = new ToolStripStatusLabel();
             stMode = new ToolStripStatusLabel();
-            gcBookId = new DataGridViewTextBoxColumn();
-            gcIsReturned = new DataGridViewComboBoxColumn();
-            gcReturnedDate = new DataGridViewTextBoxColumn();
-            gcReturnStatus = new DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvRentalDetail).BeginInit();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -151,86 +152,15 @@
             // dgvRentalDetail
             // 
             dgvRentalDetail.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRentalDetail.Columns.AddRange(new DataGridViewColumn[] { gcBookId, gcIsReturned, gcReturnedDate, gcReturnStatus });
-            dgvRentalDetail.Location = new Point(35, 187);
+            dgvRentalDetail.Columns.AddRange(new DataGridViewColumn[] { gcBookId, gcIsReturned, gcReturnedDate, gcReturnStatus, DeleteButton });
+            dgvRentalDetail.Location = new Point(104, 186);
             dgvRentalDetail.Name = "dgvRentalDetail";
             dgvRentalDetail.RowHeadersWidth = 51;
             dgvRentalDetail.RowTemplate.Height = 29;
-            dgvRentalDetail.Size = new Size(603, 278);
+            dgvRentalDetail.Size = new Size(728, 278);
             dgvRentalDetail.TabIndex = 6;
             dgvRentalDetail.CellBeginEdit += dgvRentalDetail_CellBeginEdit;
-            // 
-            // cmdClose
-            // 
-            cmdClose.Location = new Point(802, 429);
-            cmdClose.Name = "cmdClose";
-            cmdClose.Size = new Size(94, 29);
-            cmdClose.TabIndex = 10;
-            cmdClose.Text = "Close";
-            cmdClose.UseVisualStyleBackColor = true;
-            cmdClose.Click += btnClose_Click;
-            // 
-            // cmdClear
-            // 
-            cmdClear.Location = new Point(802, 394);
-            cmdClear.Name = "cmdClear";
-            cmdClear.Size = new Size(94, 29);
-            cmdClear.TabIndex = 8;
-            cmdClear.Text = "Clear";
-            cmdClear.UseVisualStyleBackColor = true;
-            cmdClear.Click += btnClear_Click;
-            // 
-            // cmdDelete
-            // 
-            cmdDelete.Location = new Point(678, 429);
-            cmdDelete.Name = "cmdDelete";
-            cmdDelete.Size = new Size(94, 29);
-            cmdDelete.TabIndex = 9;
-            cmdDelete.Text = "Delete";
-            cmdDelete.UseVisualStyleBackColor = true;
-            cmdDelete.Click += btnDelete_Click;
-            // 
-            // cmdSave
-            // 
-            cmdSave.Location = new Point(678, 394);
-            cmdSave.Name = "cmdSave";
-            cmdSave.Size = new Size(94, 29);
-            cmdSave.TabIndex = 7;
-            cmdSave.Text = "Save";
-            cmdSave.UseVisualStyleBackColor = true;
-            cmdSave.Click += btnSave_Click;
-            // 
-            // toolStrip1
-            // 
-            toolStrip1.ImageScalingSize = new Size(20, 20);
-            toolStrip1.Location = new Point(0, 0);
-            toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(940, 25);
-            toolStrip1.TabIndex = 18;
-            toolStrip1.Text = "toolStrip1";
-            // 
-            // statusStrip1
-            // 
-            statusStrip1.ImageScalingSize = new Size(20, 20);
-            statusStrip1.Items.AddRange(new ToolStripItem[] { stMessage, stMode });
-            statusStrip1.Location = new Point(0, 506);
-            statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(940, 26);
-            statusStrip1.TabIndex = 19;
-            statusStrip1.Text = "statusStrip1";
-            // 
-            // stMessage
-            // 
-            stMessage.AutoSize = false;
-            stMessage.Name = "stMessage";
-            stMessage.Size = new Size(600, 20);
-            stMessage.Text = "You can search by Rental Id or Member Id or Librian Id";
-            // 
-            // stMode
-            // 
-            stMode.Name = "stMode";
-            stMode.Size = new Size(75, 20);
-            stMode.Text = "***New***";
+            dgvRentalDetail.CellClick += dgvRentalDetail_CellClick;
             // 
             // gcBookId
             // 
@@ -268,11 +198,92 @@
             gcReturnStatus.SortMode = DataGridViewColumnSortMode.Automatic;
             gcReturnStatus.Width = 175;
             // 
+            // DeleteButton
+            // 
+            DeleteButton.HeaderText = "Delete";
+            DeleteButton.MinimumWidth = 6;
+            DeleteButton.Name = "DeleteButton";
+            DeleteButton.Text = "Remove";
+            DeleteButton.UseColumnTextForButtonValue = true;
+            DeleteButton.Width = 125;
+            // 
+            // cmdClose
+            // 
+            cmdClose.Location = new Point(556, 523);
+            cmdClose.Name = "cmdClose";
+            cmdClose.Size = new Size(94, 29);
+            cmdClose.TabIndex = 10;
+            cmdClose.Text = "Close";
+            cmdClose.UseVisualStyleBackColor = true;
+            cmdClose.Click += btnClose_Click;
+            // 
+            // cmdClear
+            // 
+            cmdClear.Location = new Point(456, 523);
+            cmdClear.Name = "cmdClear";
+            cmdClear.Size = new Size(94, 29);
+            cmdClear.TabIndex = 8;
+            cmdClear.Text = "Clear";
+            cmdClear.UseVisualStyleBackColor = true;
+            cmdClear.Click += btnClear_Click;
+            // 
+            // cmdDelete
+            // 
+            cmdDelete.Location = new Point(356, 523);
+            cmdDelete.Name = "cmdDelete";
+            cmdDelete.Size = new Size(94, 29);
+            cmdDelete.TabIndex = 9;
+            cmdDelete.Text = "Delete";
+            cmdDelete.UseVisualStyleBackColor = true;
+            cmdDelete.Click += btnDelete_Click;
+            // 
+            // cmdSave
+            // 
+            cmdSave.Location = new Point(256, 523);
+            cmdSave.Name = "cmdSave";
+            cmdSave.Size = new Size(94, 29);
+            cmdSave.TabIndex = 7;
+            cmdSave.Text = "Save";
+            cmdSave.UseVisualStyleBackColor = true;
+            cmdSave.Click += btnSave_Click;
+            // 
+            // toolStrip1
+            // 
+            toolStrip1.ImageScalingSize = new Size(20, 20);
+            toolStrip1.Location = new Point(0, 0);
+            toolStrip1.Name = "toolStrip1";
+            toolStrip1.Size = new Size(940, 25);
+            toolStrip1.TabIndex = 18;
+            toolStrip1.Text = "toolStrip1";
+            // 
+            // statusStrip1
+            // 
+            statusStrip1.ImageScalingSize = new Size(20, 20);
+            statusStrip1.Items.AddRange(new ToolStripItem[] { stMessage, stMode });
+            statusStrip1.Location = new Point(0, 605);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new Size(940, 26);
+            statusStrip1.TabIndex = 19;
+            statusStrip1.Text = "statusStrip1";
+            // 
+            // stMessage
+            // 
+            stMessage.AutoSize = false;
+            stMessage.Name = "stMessage";
+            stMessage.Size = new Size(600, 20);
+            stMessage.Text = "You can search by Rental Id or Member Id or Librian Id";
+            // 
+            // stMode
+            // 
+            stMode.Name = "stMode";
+            stMode.Size = new Size(75, 20);
+            stMode.Text = "***New***";
+            // 
             // frmRental
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(940, 532);
+            ClientSize = new Size(940, 631);
             Controls.Add(statusStrip1);
             Controls.Add(toolStrip1);
             Controls.Add(cmdClose);
@@ -331,5 +342,6 @@
         private DataGridViewComboBoxColumn gcIsReturned;
         private DataGridViewTextBoxColumn gcReturnedDate;
         private DataGridViewComboBoxColumn gcReturnStatus;
+        private DataGridViewButtonColumn DeleteButton;
     }
 }

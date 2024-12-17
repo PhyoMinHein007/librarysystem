@@ -185,7 +185,7 @@
             MinimizeBox = false;
             Name = "frmCategory";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "frmCategory";
+            Text = "Category Entry";
             Load += frmCategory_Load;
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();

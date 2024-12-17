@@ -10,27 +10,30 @@ using System.Windows.Forms;
 
 namespace Library.Forms
 {
-    public partial class frmAuthorSelection : Form
+    public partial class frmMemberSelection : Form
     {
-        public Library.BizO.Author SelectedAuthor { get; private set; }
+        public Library.BizO.Member SelectedMember { get; private set; }
 
-        public frmAuthorSelection(List<Library.BizO.Author> authors)
+        public frmMemberSelection(List<Library.BizO.Member> members)
         {
             InitializeComponent();
-            dataGridViewAuthors.DataSource = authors;
+            dataGridViewMembers.DataSource = members;
+            dataGridViewMembers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewMembers.Columns[dataGridViewMembers.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (dataGridViewAuthors.SelectedRows.Count > 0)
+            if (dataGridViewMembers.SelectedRows.Count > 0)
             {
-                SelectedAuthor = (Library.BizO.Author)dataGridViewAuthors.SelectedRows[0].DataBoundItem;
+                SelectedMember = (Library.BizO.Member)dataGridViewMembers.SelectedRows[0].DataBoundItem;
                 DialogResult = DialogResult.OK;
                 this.Close();
             }
             else
             {
-                MessageBox.Show("Please select an author.");
+                MessageBox.Show("Please select a member.");
             }
         }
 
